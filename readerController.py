@@ -199,6 +199,28 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
     # 篩選：有留言
     def readHasShout(self):
         self.tableWidget.setSortingEnabled(False)
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.setColumnCount(8)
+        headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
+        self.tableWidget.setHorizontalHeaderLabels(headerName)
+
+        reports = self.c.execute(
+            ''' SELECT * FROM reports WHERE hasShout = 1 '''
+        ).fetchall()
+
+        for report in reports:
+            report = list(report)
+            rowPosition = self.tableWidget.rowCount()
+
+            self.tableWidget.insertRow(rowPosition)
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
+            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
+            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
+            self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
+            self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
+            self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
         self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
