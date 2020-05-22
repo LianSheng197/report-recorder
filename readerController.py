@@ -49,6 +49,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
 
     # 查詢不重複玩家
@@ -76,6 +77,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(playerName)))
             self.tableWidget.setItem(rowPosition, 1, MyTableWidgetItem(str(battleCount), int(battleCount)))
 
+        self.setColumnWidth(2)
         self.tableWidget.setSortingEnabled(True)
 
     # 篩選：友好切磋
@@ -104,6 +106,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
 
     # 篩選：認真決鬥
@@ -132,6 +135,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
 
     # 篩選：決一死戰
@@ -160,6 +164,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
 
     # 篩選：我要殺死你
@@ -188,16 +193,23 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
 
     # 篩選：有留言
     def readHasShout(self):
         self.tableWidget.setSortingEnabled(False)
+
+        self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
 
     def dateTime(self, timestamp):
         return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(timestamp / 1000))
 
+    def setColumnWidth(self, columnCount):
+        for i in range(columnCount):
+            header = self.tableWidget.horizontalHeader()
+            header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
 
 # 自定義排序，針對數字
 # 僅需要在需數字排序的資料用上即可
