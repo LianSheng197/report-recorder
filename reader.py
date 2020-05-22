@@ -75,9 +75,9 @@ class Ui_MainWindow(object):
         self.sortByTimestamp = QtWidgets.QPushButton(self.centralwidget)
         self.sortByTimestamp.setGeometry(QtCore.QRect(550, 50, 80, 31))
         self.sortByTimestamp.setObjectName("sortByTimestamp")
-        self.sortByBattleCount_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.sortByBattleCount_2.setGeometry(QtCore.QRect(370, 50, 80, 31))
-        self.sortByBattleCount_2.setObjectName("sortByBattleCount_2")
+        self.sortById = QtWidgets.QPushButton(self.centralwidget)
+        self.sortById.setGeometry(QtCore.QRect(370, 50, 80, 31))
+        self.sortById.setObjectName("sortById")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -98,4 +98,4 @@ class Ui_MainWindow(object):
         self.label_5.setText(_translate("MainWindow", "排序 高到低"))
         self.sortByBattleCount.setText(_translate("MainWindow", "依場數排序"))
         self.sortByTimestamp.setText(_translate("MainWindow", "依時間排序"))
-        self.sortByBattleCount_2.setText(_translate("MainWindow", "預設排序"))
+        self.sortById.setText(_translate("MainWindow", "預設排序"))

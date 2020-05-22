@@ -216,7 +216,7 @@
      <string>依時間排序</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="sortByBattleCount_2">
+   <widget class="QPushButton" name="sortById">
     <property name="geometry">
      <rect>
       <x>370</x>
