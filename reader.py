@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "歷史戰報閱讀器"))
         self.readDistinctButton.setText(_translate("MainWindow", "查詢不重複玩家"))
-        self.readType1Button.setText(_translate("MainWindow", "認真對決"))
+        self.readType1Button.setText(_translate("MainWindow", "認真決鬥"))
         self.readType2Button.setText(_translate("MainWindow", "決一死戰"))
         self.readType3Button.setText(_translate("MainWindow", "我要殺死你"))
         self.readAllButton.setText(_translate("MainWindow", "查詢所有戰報"))

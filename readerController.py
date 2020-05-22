@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 from reader import Ui_MainWindow
 import sqlite3
+import time
 import sys
 
 
@@ -17,10 +18,11 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.readType2Button.clicked.connect(self.readType2)
         self.readType3Button.clicked.connect(self.readType3)
         self.readHasShoutButton.clicked.connect(self.readHasShout)
-        self.sortByIdButton.clicked.connect(self.sortById)
-        self.sortByBattleCountButton.clicked.connect(self.sortByBattleCount)
-        self.sortByTimestampButton.clicked.connect(self.sortByTimestamp)
 
+        # 設定表格爲可排序
+        self.tableWidget.setSortingEnabled(True)
+
+        # 資料庫連線
         self.conn = sqlite3.connect('reports.sqlite3')
         self.c = self.conn.cursor()
         print("成功連接資料庫")
@@ -40,14 +42,14 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             report = list(report)
             rowPosition = self.tableWidget.rowCount()
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(report[0])))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
             self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
             self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
             self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
             self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str(report[8])))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(report[9])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
     # 查詢不重複玩家
     def readDistinct(self):
@@ -95,10 +97,10 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
             self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
             self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str(report[8])))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(report[9])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
-    # 篩選：認真對決
+    # 篩選：認真決鬥
     def readType1(self):
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
@@ -106,7 +108,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setHorizontalHeaderLabels(headerName)
 
         reports = self.c.execute(
-            ''' SELECT * FROM reports WHERE type = '認真對決' '''
+            ''' SELECT * FROM reports WHERE type = '認真決鬥' '''
         ).fetchall()
 
         for report in reports:
@@ -120,8 +122,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
             self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
             self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str(report[8])))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(report[9])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
     # 篩選：決一死戰
     def readType2(self):
@@ -145,8 +147,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
             self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
             self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str(report[8])))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(report[9])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
     # 篩選：我要殺死你
     def readType3(self):
@@ -170,24 +172,15 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
             self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
             self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str(report[8])))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(report[9])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
     # 篩選：有留言
     def readHasShout(self):
         print()
 
-    # 排序：預設排序
-    def sortById(self):
-        print()
-
-    # 排序：依場數排序
-    def sortByBattleCount(self):
-        self.tableWidget.setSortingEnabled(True)
-
-    # 排序：依時間排序
-    def sortByTimestamp(self):
-        print()
+    def dateTime(self, timestamp):
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(timestamp / 1000))
 
 
 # 自定義排序，針對數字
