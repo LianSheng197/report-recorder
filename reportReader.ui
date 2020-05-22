@@ -190,7 +190,7 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="sortByBattleCount">
+   <widget class="QPushButton" name="sortByBattleCountButton">
     <property name="geometry">
      <rect>
       <x>460</x>
@@ -203,7 +203,7 @@
      <string>依場數排序</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="sortByTimestamp">
+   <widget class="QPushButton" name="sortByTimestampButton">
     <property name="geometry">
      <rect>
       <x>550</x>
@@ -216,7 +216,7 @@
      <string>依時間排序</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="sortById">
+   <widget class="QPushButton" name="sortByIdButton">
     <property name="geometry">
      <rect>
       <x>370</x>
