@@ -81,6 +81,7 @@ headers = {
     'content-type': 'application/json;charset=UTF-8',
     'token': _config["token"],
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0'}
+errorCount = 0
 
 
 conn = sqlite3.connect('reports.sqlite3')
@@ -94,8 +95,13 @@ c.execute(
 if c.fetchone()[0] == 1:
     print('資料表已存在，開始記錄')
 
-    while True:
-        fetchData()
+    while errorCount < 20:
+        try:
+            fetchData()
+        except:
+            errorCount += 1
+            print(f"錯誤，目前共有 {errorCount} 次錯誤")
+        
         time.sleep(_config["report"]["period"])
 else:
     print('資料表不存在，先建表')
@@ -128,8 +134,13 @@ else:
         '''
     )
 
-    while True:
-        fetchData()
+    while errorCount < 20:
+        try:
+            fetchData()
+        except:
+            errorCount += 1
+            print(f"錯誤，目前共有 {errorCount} 次錯誤")
+            
         time.sleep(_config["report"]["period"])
 
 conn.commit()
