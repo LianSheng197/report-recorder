@@ -19,9 +19,6 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.readType3Button.clicked.connect(self.readType3)
         self.readHasShoutButton.clicked.connect(self.readHasShout)
 
-        # 設定表格爲可排序
-        self.tableWidget.setSortingEnabled(True)
-
         # 資料庫連線
         self.conn = sqlite3.connect('reports.sqlite3')
         self.c = self.conn.cursor()
@@ -29,6 +26,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # 查詢所有戰報
     def readAll(self):
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
         headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
@@ -51,8 +49,11 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.tableWidget.setSortingEnabled(True)
+
     # 查詢不重複玩家
     def readDistinct(self):
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(2)
         headerName = ["對手暱稱", "戰鬥次數"]
@@ -75,8 +76,11 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(playerName)))
             self.tableWidget.setItem(rowPosition, 1, MyTableWidgetItem(str(battleCount), int(battleCount)))
 
+        self.tableWidget.setSortingEnabled(True)
+
     # 篩選：友好切磋
     def readType0(self):
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
         headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
@@ -91,7 +95,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(report[0])))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
             self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
             self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
@@ -100,8 +104,11 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.tableWidget.setSortingEnabled(True)
+
     # 篩選：認真決鬥
     def readType1(self):
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
         headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
@@ -116,7 +123,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(report[0])))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
             self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
             self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
@@ -125,8 +132,11 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.tableWidget.setSortingEnabled(True)
+
     # 篩選：決一死戰
     def readType2(self):
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
         headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
@@ -141,7 +151,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(report[0])))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
             self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
             self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
@@ -150,8 +160,11 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.tableWidget.setSortingEnabled(True)
+
     # 篩選：我要殺死你
     def readType3(self):
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
         headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
@@ -166,7 +179,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(report[0])))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
             self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
             self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
             self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
@@ -175,9 +188,12 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
             self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
+        self.tableWidget.setSortingEnabled(True)
+
     # 篩選：有留言
     def readHasShout(self):
-        print()
+        self.tableWidget.setSortingEnabled(False)
+        self.tableWidget.setSortingEnabled(True)
 
     def dateTime(self, timestamp):
         return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(timestamp / 1000))
