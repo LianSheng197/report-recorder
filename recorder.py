@@ -2,27 +2,45 @@
 
 import sqlite3
 import yaml
-import json
 import time
 import sys
 import signal
 import requests
-from urllib import parse
 
 
 def fetchData():
-    c.execute("SELECT * FROM reports ORDER BY id DESC")
-
+    c.execute("SELECT * FROM reports ORDER BY timestamp DESC LIMIT 1")
     lastRow = c.fetchone()
 
     if(lastRow != None):
-        print(lastRow[-1])
+        # 最後戰報時間
+        lastUpdate = lastRow[-1]
     else:
-        print(0)
+        lastUpdate = 0
 
-    # data = requests.get(url=reportUrl, headers=headers).json()
-    # for report in data["reports"]:
-    #     print(report)
+    data = requests.get(url=reportUrl, headers=headers).json()
+    reports = data["reports"]
+    
+    for report in reports:
+        playerName = report["a"]["nickname"]
+        playerUid = report["a"]["uid"]
+        playerLevel = report["a"]["lv"]
+        myLevel = report["b"]["lv"]
+        fightType = battleType[report["type"]]
+        result = "戰敗" if(report["winner"] == playerUid) else "勝利"
+        reportId = report["_id"]
+        hasShout = report["hasShout"]
+        timestamp = report["timestamp"]
+
+        
+        if(timestamp <= lastUpdate):
+            break
+        if(report["type"] >= _config["report"]["warningLevel"]):
+            print(f"{playerName}({playerLevel}) {fightType} {result} {timestamp}")
+
+        conn.execute("INSERT INTO reports(playerName, playerUid, playerLevel, myLevel, type, result, reportId, hasShout, timestamp) VALUES(?,?,?,?,?,?,?,?,?)", (playerName, playerUid, playerLevel, myLevel, fightType, result, reportId, hasShout, timestamp))
+
+    conn.commit()
 
 
 def handler(sig, frame):
@@ -49,21 +67,15 @@ if(_config["token"] == None):
 if(not isinstance(_config["report"]["period"], int) or _config["report"]["period"] < 30):
     print("設定錯誤： report.period 必須是正整數，且不能小於 30")
     sys.exit(202)
-if(not isinstance(_config["report"]["all"], bool)):
-    print("設定錯誤： report.all 必須是 true 或 false")
-    sys.exit(203)
-if(not isinstance(_config["report"]["battleCount"], bool)):
-    print("設定錯誤： report.battleCount 必須是 true 或 false")
-    sys.exit(204)
 if(not isinstance(_config["report"]["warningLevel"], int) or _config["report"]["warningLevel"] < 1 or _config["report"]["warningLevel"] > 3):
     print("設定錯誤： report.warningLevel 必須是 1, 2, 3 其一")
-    sys.exit(205)
+    sys.exit(203)
 
 
-battleType = {'0': '友好切磋',
-              '1': '認真決鬥',
-              '2': '決一死戰',
-              '3': '我要殺死你'}
+battleType = {0: '友好切磋',
+              1: '認真決鬥',
+              2: '決一死戰',
+              3: '我要殺死你'}
 reportUrl = "https://mykirito.com/api/reports"
 headers = {
     'content-type': 'application/json;charset=UTF-8',
