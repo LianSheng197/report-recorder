@@ -51,7 +51,7 @@ def handler(sig, frame):
 
 signal.signal(signal.SIGINT, handler)
 
-with open("config.yml", 'r') as stream:
+with open("config.yml", 'r', encoding="utf-8") as stream:
     try:
         _config = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
