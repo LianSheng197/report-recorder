@@ -29,7 +29,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
-        headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
+        headerName = ["id", "對手暱稱", "對手等級",
+                      "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
         self.tableWidget.setHorizontalHeaderLabels(headerName)
 
         reports = self.c.execute(
@@ -40,14 +41,22 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             report = list(report)
             rowPosition = self.tableWidget.rowCount()
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
-            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
-            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
-            self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
-            self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
-            self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(
+                str(report[0]), int(report[0])))
+            self.tableWidget.setItem(
+                rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
+            self.tableWidget.setItem(
+                rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
+            self.tableWidget.setItem(
+                rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
+            self.tableWidget.setItem(
+                rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
+            self.tableWidget.setItem(
+                rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(
+                str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(
+                rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
         self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
@@ -74,8 +83,10 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             ).fetchone()[0]
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(str(playerName)))
-            self.tableWidget.setItem(rowPosition, 1, MyTableWidgetItem(str(battleCount), int(battleCount)))
+            self.tableWidget.setItem(
+                rowPosition, 0, QtWidgets.QTableWidgetItem(str(playerName)))
+            self.tableWidget.setItem(rowPosition, 1, MyTableWidgetItem(
+                str(battleCount), int(battleCount)))
 
         self.setColumnWidth(2)
         self.tableWidget.setSortingEnabled(True)
@@ -85,7 +96,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
-        headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
+        headerName = ["id", "對手暱稱", "對手等級",
+                      "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
         self.tableWidget.setHorizontalHeaderLabels(headerName)
 
         reports = self.c.execute(
@@ -97,14 +109,22 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
-            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
-            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
-            self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
-            self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
-            self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(
+                str(report[0]), int(report[0])))
+            self.tableWidget.setItem(
+                rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
+            self.tableWidget.setItem(
+                rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
+            self.tableWidget.setItem(
+                rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
+            self.tableWidget.setItem(
+                rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
+            self.tableWidget.setItem(
+                rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(
+                str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(
+                rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
         self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
@@ -114,7 +134,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
-        headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
+        headerName = ["id", "對手暱稱", "對手等級",
+                      "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
         self.tableWidget.setHorizontalHeaderLabels(headerName)
 
         reports = self.c.execute(
@@ -126,14 +147,22 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
-            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
-            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
-            self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
-            self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
-            self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(
+                str(report[0]), int(report[0])))
+            self.tableWidget.setItem(
+                rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
+            self.tableWidget.setItem(
+                rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
+            self.tableWidget.setItem(
+                rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
+            self.tableWidget.setItem(
+                rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
+            self.tableWidget.setItem(
+                rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(
+                str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(
+                rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
         self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
@@ -143,7 +172,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
-        headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
+        headerName = ["id", "對手暱稱", "對手等級",
+                      "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
         self.tableWidget.setHorizontalHeaderLabels(headerName)
 
         reports = self.c.execute(
@@ -155,14 +185,22 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
-            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
-            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
-            self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
-            self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
-            self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(
+                str(report[0]), int(report[0])))
+            self.tableWidget.setItem(
+                rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
+            self.tableWidget.setItem(
+                rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
+            self.tableWidget.setItem(
+                rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
+            self.tableWidget.setItem(
+                rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
+            self.tableWidget.setItem(
+                rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(
+                str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(
+                rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
         self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
@@ -172,7 +210,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
-        headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
+        headerName = ["id", "對手暱稱", "對手等級",
+                      "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
         self.tableWidget.setHorizontalHeaderLabels(headerName)
 
         reports = self.c.execute(
@@ -184,14 +223,22 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
-            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
-            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
-            self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
-            self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
-            self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(
+                str(report[0]), int(report[0])))
+            self.tableWidget.setItem(
+                rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
+            self.tableWidget.setItem(
+                rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
+            self.tableWidget.setItem(
+                rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
+            self.tableWidget.setItem(
+                rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
+            self.tableWidget.setItem(
+                rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(
+                str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(
+                rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
         self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
@@ -201,7 +248,8 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setSortingEnabled(False)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(8)
-        headerName = ["id", "對手暱稱", "對手等級", "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
+        headerName = ["id", "對手暱稱", "對手等級",
+                      "我方等級", "戰鬥種類", "戰鬥結果", "是否留言", "戰報時間"]
         self.tableWidget.setHorizontalHeaderLabels(headerName)
 
         reports = self.c.execute(
@@ -213,32 +261,44 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             rowPosition = self.tableWidget.rowCount()
 
             self.tableWidget.insertRow(rowPosition)
-            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(str(report[0]), int(report[0])))
-            self.tableWidget.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
-            self.tableWidget.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
-            self.tableWidget.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
-            self.tableWidget.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
-            self.tableWidget.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
-            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(str("是" if report[8] == 1 else "否")))
-            self.tableWidget.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
+            self.tableWidget.setItem(rowPosition, 0, MyTableWidgetItem(
+                str(report[0]), int(report[0])))
+            self.tableWidget.setItem(
+                rowPosition, 1, QtWidgets.QTableWidgetItem(str(report[1])))
+            self.tableWidget.setItem(
+                rowPosition, 2, QtWidgets.QTableWidgetItem(str(report[3])))
+            self.tableWidget.setItem(
+                rowPosition, 3, QtWidgets.QTableWidgetItem(str(report[4])))
+            self.tableWidget.setItem(
+                rowPosition, 4, QtWidgets.QTableWidgetItem(str(report[5])))
+            self.tableWidget.setItem(
+                rowPosition, 5, QtWidgets.QTableWidgetItem(str(report[6])))
+            self.tableWidget.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(
+                str("是" if report[8] == 1 else "否")))
+            self.tableWidget.setItem(
+                rowPosition, 7, QtWidgets.QTableWidgetItem(str(self.dateTime(report[9]))))
 
         self.setColumnWidth(8)
         self.tableWidget.setSortingEnabled(True)
 
     def dateTime(self, timestamp):
-        return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(timestamp / 1000))
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(timestamp / 1000 + 60 * 60 * 8) )
 
     def setColumnWidth(self, columnCount):
         for i in range(columnCount):
             header = self.tableWidget.horizontalHeader()
-            header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(
+                i, QtWidgets.QHeaderView.ResizeToContents)
 
 # 自定義排序，針對數字
 # 僅需要在需數字排序的資料用上即可
+
+
 class MyTableWidgetItem(QtWidgets.QTableWidgetItem):
     def __init__(self, text, sortKey):
-        QtWidgets.QTableWidgetItem.__init__(self, text, QtWidgets.QTableWidgetItem.UserType)
+        QtWidgets.QTableWidgetItem.__init__(
+            self, text, QtWidgets.QTableWidgetItem.UserType)
         self.sortKey = sortKey
 
     def __lt__(self, other):
-        return self.sortKey < other.sortKey 
+        return self.sortKey < other.sortKey
