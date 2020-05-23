@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
-from reader import Ui_MainWindow
+from lib.readerUI import Ui_MainWindow
 import sqlite3
 import time
 import sys
@@ -42,6 +42,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
     def cellClickEvent(self, row, col):
         data = self.dict
         items = self.tableWidget.selectedItems()
+        link = None
 
         if(col == 0):
             try:

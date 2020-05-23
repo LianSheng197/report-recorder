@@ -1,6 +1,5 @@
-from readerController import Reader
+from lib.readerController import Reader
 from PyQt5 import QtCore, QtWidgets, QtGui
-from reader import Ui_MainWindow
 import sqlite3
 import sys
 

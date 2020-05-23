@@ -3,9 +3,8 @@
 token: xx-xx-xx
 report:
   # 取得戰報的週期時間，單位爲秒，最低值 30
-  period: 30        
+  period: 120        
 
   # 警告等級，設定對方用什麼類型以上攻擊你時就額外顯示 （1 認真、2 決戰、3 殺死）
-  # 當 report.all 被設定爲 false 時，將只會記錄這個值以上的戰鬥類型
   warningLevel: 1   
 ...
