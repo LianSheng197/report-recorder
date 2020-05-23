@@ -3,7 +3,7 @@ from reader import Ui_MainWindow
 import sqlite3
 import time
 import sys
-import os
+import webbrowser
 
 
 class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -37,13 +37,18 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         for report in reports:
             report = list(report)
             self.dict.update({str(report[1]): str(report[2])})
-            self.dict.update({str(dateTime(report[9])): str(report[7])})
+            self.dict.update({str(self.dateTime(report[9])): str(report[7])})
 
     def cellClickEvent(self, row, col):
         data = self.dict
         items = self.tableWidget.selectedItems()
 
-        if(col == 1):
+        if(col == 0):
+            try:
+                pass
+            except:
+                pass
+        elif(col == 1):
             try:
                 playerName = items[0].text()
                 playerId = data[playerName]
@@ -60,8 +65,9 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
             except:
                 pass
 
-   
-   
+        if(link != None):
+            webbrowser.open_new_tab(link)
+
     # 查詢所有戰報
     def readAll(self):
         self.tableWidget.setSortingEnabled(False)
