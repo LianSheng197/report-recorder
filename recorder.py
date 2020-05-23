@@ -7,14 +7,13 @@ import sys
 import signal
 import requests
 
-
 def fetchData():
     c.execute("SELECT * FROM reports ORDER BY timestamp DESC LIMIT 1")
     lastRow = c.fetchone()
 
     if(lastRow != None):
         # 最後戰報時間
-        lastUpdate = lastRow[-1]
+        lastUpdate = lastRow[-3]
     else:
         lastUpdate = 0
 
@@ -31,14 +30,15 @@ def fetchData():
         reportId = report["_id"]
         hasShout = report["hasShout"]
         timestamp = report["timestamp"]
+        playerCharacter = report["a"]["character"]
+        playerTitle = report["a"]["title"]
 
-        
         if(timestamp <= lastUpdate):
             break
         if(report["type"] >= _config["report"]["warningLevel"]):
             print(f"{playerName}({playerLevel}) {fightType} {result} {timestamp}")
 
-        conn.execute("INSERT INTO reports(playerName, playerUid, playerLevel, myLevel, type, result, reportId, hasShout, timestamp) VALUES(?,?,?,?,?,?,?,?,?)", (playerName, playerUid, playerLevel, myLevel, fightType, result, reportId, hasShout, timestamp))
+        conn.execute("INSERT INTO reports(playerName, playerUid, playerLevel, myLevel, type, result, reportId, hasShout, timestamp, playerCharacter, playerTitle) VALUES(?,?,?,?,?,?,?,?,?,?,?)", (playerName, playerUid, playerLevel, myLevel, fightType, result, reportId, hasShout, timestamp, playerCharacter, playerTitle))
 
     conn.commit()
 
@@ -108,28 +108,32 @@ else:
 
     # id            資料 ID，主鍵
     # playerName    玩家暱稱
-    # playerUid     玩家 ID
-    # playerLevel   玩家等級
-    # myLevel       我方等級
-    # type          戰鬥種類（友好切磋, 認真決鬥, 決一死戰, 我要殺死你）
-    # result        戰鬥結果（勝利, 戰敗）
-    # reportId      戰報 ID
-    # hasShout      是否留言（true, false）
-    # timestamp     戰報時間（秒）
+    # playerUid           玩家 ID
+    # playerLevel         玩家等級
+    # myLevel             我方等級
+    # type                戰鬥種類（友好切磋, 認真決鬥, 決一死戰, 我要殺死你）
+    # result              戰鬥結果（勝利, 戰敗）
+    # reportId            戰報 ID
+    # hasShout            是否留言（true, false）
+    # timestamp           戰報時間（秒）
+    # playerCharacter     玩家角色
+    # playerTitle         玩家稱號
     conn.execute(
         '''
         CREATE TABLE reports
         (
-            id INTEGER PRIMARY KEY  AUTOINCREMENT,
-            playerName     TEXT     NOT NULL,
-            playerUid      CHAR(30) NOT NULL,
-            playerLevel    INT      NOT NULL,
-            myLevel        INT      NOT NULL,
-            type           TEXT     NOT NULL,
-            result         TEXT     NOT NULL,
-            reportId       CHAR(30) NOT NULL,
-            hasShout       INT      NOT NULL,
-            timestamp      INT      NOT NULL
+            id INTEGER PRIMARY KEY   AUTOINCREMENT,
+            playerName      TEXT     NOT NULL,
+            playerUid       CHAR(30) NOT NULL,
+            playerLevel     INT      NOT NULL,
+            myLevel         INT      NOT NULL,
+            type            TEXT     NOT NULL,
+            result          TEXT     NOT NULL,
+            reportId        CHAR(30) NOT NULL,
+            hasShout        INT      NOT NULL,
+            timestamp       INT      NOT NULL,
+            playerCharacter TEXT     NOT NULL,
+            playerTitle     TEXT     NOT NULL
         );
         '''
     )
