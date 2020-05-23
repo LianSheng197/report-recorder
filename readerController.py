@@ -3,12 +3,18 @@ from reader import Ui_MainWindow
 import sqlite3
 import time
 import sys
+import os
 
 
 class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(Reader, self).__init__()
         self.setupUi(self)
+
+        # 資料庫連線
+        self.conn = sqlite3.connect('reports.sqlite3')
+        self.c = self.conn.cursor()
+        print("成功連接資料庫")
 
         # 按鈕點擊事件註冊
         self.readAllButton.clicked.connect(self.readAll)
@@ -19,11 +25,43 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.readType3Button.clicked.connect(self.readType3)
         self.readHasShoutButton.clicked.connect(self.readHasShout)
 
-        # 資料庫連線
-        self.conn = sqlite3.connect('reports.sqlite3')
-        self.c = self.conn.cursor()
-        print("成功連接資料庫")
+        # 表格點擊事件
+        self.tableWidget.cellClicked.connect(self.cellClickEvent)
 
+        # 表格對應字典
+        self.dict = {}
+        reports = self.c.execute(
+            ''' SELECT * FROM reports '''
+        ).fetchall()
+
+        for report in reports:
+            report = list(report)
+            self.dict.update({str(report[1]): str(report[2])})
+            self.dict.update({str(dateTime(report[9])): str(report[7])})
+
+    def cellClickEvent(self, row, col):
+        data = self.dict
+        items = self.tableWidget.selectedItems()
+
+        if(col == 1):
+            try:
+                playerName = items[0].text()
+                playerId = data[playerName]
+                link = f"https://mykirito.com/profile/{playerId}"
+                print(link)
+            except:
+                pass
+        elif(col == 7):
+            try:
+                reportTime = items[0].text()
+                reportId = data[reportTime]
+                link = f"https://mykirito.com/report/{reportId}"
+                print(link)
+            except:
+                pass
+
+   
+   
     # 查詢所有戰報
     def readAll(self):
         self.tableWidget.setSortingEnabled(False)
@@ -282,7 +320,7 @@ class Reader(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.setSortingEnabled(True)
 
     def dateTime(self, timestamp):
-        return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(timestamp / 1000 + 60 * 60 * 8) )
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(timestamp / 1000 + 60 * 60 * 8))
 
     def setColumnWidth(self, columnCount):
         for i in range(columnCount):
